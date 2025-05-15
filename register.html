@@ -1,0 +1,68 @@
+---
+layout: default
+title: Register - Teachers Union Campaign
+---
+
+<main>
+    <section class="layout--stripe background-color--main-pale">
+        <div class="layout--stripe--inner">
+            <h2>Register for Teachers Union Campaign</h2>
+            <form id="register-form" class="form">
+                <div class="form--item">
+                    <label for="new-username">Username</label>
+                    <input type="text" id="new-username" name="username" required>
+                </div>
+                <div class="form--item">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form--item">
+                    <label for="new-password">Password</label>
+                    <input type="password" id="new-password" name="password" required>
+                </div>
+                <div class="form--item">
+                    <label for="confirm-password">Confirm Password</label>
+                    <input type="password" id="confirm-password" name="confirm-password" required>
+                </div>
+                <div id="registration-status" class="alert"></div>
+                <button type="submit" class="button">Register</button>
+                <p>Already have an account? <a href="/login.html">Log in here</a></p>
+            </form>
+        </div>
+    </section>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const registerForm = document.getElementById('register-form');
+    const registrationStatus = document.getElementById('registration-status');
+
+    registerForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const username = document.getElementById('new-username').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('new-password').value;
+        const confirmPassword = document.getElementById('confirm-password').value;
+
+        if (password !== confirmPassword) {
+            registrationStatus.textContent = 'Passwords do not match';
+            registrationStatus.style.color = 'red';
+            return;
+        }
+
+        const result = window.authManager.register(username, password, email);
+        
+        if (result.success) {
+            registrationStatus.textContent = 'Registration successful! Redirecting...';
+            registrationStatus.style.color = 'green';
+            setTimeout(() => {
+                window.location.href = '/login.html';
+            }, 1500);
+        } else {
+            registrationStatus.textContent = result.message;
+            registrationStatus.style.color = 'red';
+        }
+    });
+});
+</script>
+<script src="/assets/js/auth.js"></script>

@@ -1,0 +1,35 @@
+---
+layout: default
+title: Login - Teachers Union Campaign
+---
+
+<main>
+    <section class="layout--stripe background-color--main-pale">
+        <div class="layout--stripe--inner">
+            <div id="login-section">
+                <h2>Login to Your Account</h2>
+                <form id="login-form" class="form">
+                    <div class="form--item">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    <div class="form--item">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <div id="login-status" class="alert"></div>
+                    <button type="submit" class="button">Log In</button>
+                    <p>Don't have an account? <a href="/register.html">Register here</a></p>
+                </form>
+            </div>
+
+            <div id="logout-section" style="display:none;">
+                <h2>You are already logged in</h2>
+                <p>Would you like to log out?</p>
+                <button id="logout-button" class="button background-color--second">Log Out</button>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script src="/assets/js/auth.js"></script>

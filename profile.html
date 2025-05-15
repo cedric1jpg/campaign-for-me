@@ -1,0 +1,81 @@
+---
+layout: default
+title: User Profile - Teachers Union Campaign
+---
+
+<main>
+    <section class="layout--stripe background-color--main-pale">
+        <div class="layout--stripe--inner">
+            <div id="profile-section" style="display:none;">
+                <h2>User Profile</h2>
+                <div class="card">
+                    <div class="profile-header display--flex align-items--center">
+                        <div class="profile-avatar background-color--main-medium">
+                            <span id="user-initials"></span>
+                        </div>
+                        <div class="profile-info">
+                            <h3 id="profile-name"></h3>
+                            <p id="profile-email"></p>
+                        </div>
+                    </div>
+                    <div class="profile-details">
+                        <h4>Professional Details</h4>
+                        <p>School: <span id="profile-school"></span></p>
+                        <p>Role: <span id="profile-role"></span></p>
+                        <p>Member Since: <span id="profile-join-date"></span></p>
+                    </div>
+                </div>
+                <button id="logout-button" class="button background-color--second margin-vertical--4">Log Out</button>
+            </div>
+
+            <div id="login-required" style="display:none;">
+                <h2>Login Required</h2>
+                <p>Please <a href="/login.html">log in</a> to view your profile.</p>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const profileSection = document.getElementById('profile-section');
+    const loginRequired = document.getElementById('login-required');
+    const logoutButton = document.getElementById('logout-button');
+
+    function updateProfileUI() {
+        const currentUser = window.authManager.getCurrentUser();
+
+        if (currentUser) {
+            loginRequired.style.display = 'none';
+            profileSection.style.display = 'block';
+
+            // Populate profile details
+            document.getElementById('user-initials').textContent = 
+                currentUser.username.charAt(0).toUpperCase();
+            document.getElementById('profile-name').textContent = 
+                currentUser.username;
+            document.getElementById('profile-email').textContent = 
+                currentUser.email;
+            document.getElementById('profile-school').textContent = 
+                currentUser.profile.school || 'Not specified';
+            document.getElementById('profile-role').textContent = 
+                currentUser.profile.role;
+            document.getElementById('profile-join-date').textContent = 
+                new Date(currentUser.profile.joinedDate).toLocaleDateString();
+        } else {
+            loginRequired.style.display = 'block';
+            profileSection.style.display = 'none';
+        }
+    }
+
+    if (logoutButton) {
+        logoutButton.addEventListener('click', () => {
+            window.authManager.logout();
+            window.location.href = '/login.html';
+        });
+    }
+
+    updateProfileUI();
+});
+</script>
+<script src="/assets/js/auth.js"></script>
